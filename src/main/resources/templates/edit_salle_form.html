@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Salle</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Edit Salle</h2>
+    <form th:action="@{/proprietaireSalle/editSalle/{proprietaireId}/{salleId}(proprietaireId=${proprietaireId}, salleId=${salle.id})}"
+          th:object="${salle}" method="post">
+
+        <!-- Hidden field for proprietaireId -->
+        <input type="hidden" th:field="${salle.proprietairesalle}" th:value="${proprietaireId}" />
+
+        <div class="form-group">
+            <label for="nomSalle">Salle Name</label>
+            <input type="text" id="nomSalle" th:field="*{nomSalle}" class="form-control" placeholder="Enter the gym name" required />
+        </div>
+
+        <div class="form-group">
+            <label for="adresse">Address</label>
+            <input type="text" id="adresse" th:field="*{adresse}" class="form-control" placeholder="Enter the gym address" required />
+        </div>
+
+        <div class="form-group">
+            <label for="numTel">Phone Number</label>
+            <input type="text" id="numTel" th:field="*{numTel}" class="form-control" placeholder="Enter the phone number" required />
+        </div>
+
+        <div class="form-group">
+            <label for="heureOuverture">Opening Hours</label>
+            <input type="text" id="heureOuverture" th:field="*{heureOuverture}" class="form-control" placeholder="Enter opening time" required />
+        </div>
+
+        <div class="form-group">
+            <label for="heureFermeture">Closing Hours</label>
+            <input type="text" id="heureFermeture" th:field="*{heureFermeture}" class="form-control" placeholder="Enter closing time" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update Salle</button>
+    </form>
+</div>
+</body>
+</html>

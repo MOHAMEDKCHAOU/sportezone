@@ -1,15 +1,17 @@
 package com.example.sportzone.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class RegistrationDTO {
     private String nom;
     private String prenom;
     private String email;
     private String password;
     private String adresse;
-    private String userType; // Can be CLIENT or PROPRIETAIRESALLE
-}
+    private String usertype;  // "client" or "proprietaireSalle"
+    private String telephone; // Specific to Client
+
+
+    }
+

@@ -1,10 +1,9 @@
 package com.example.sportzone.Services;
 
-import com.example.sportzone.Repository.AbonnementRepository;
 import com.example.sportzone.entity.Abonnement;
+import com.example.sportzone.Repository.AbonnementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,30 +14,35 @@ public class AbonnementService {
     @Autowired
     private AbonnementRepository abonnementRepository;
 
-    @Transactional
+    // 1. Create an abonnement
     public Abonnement createAbonnement(Abonnement abonnement) {
+        // Save the abonnement and return the saved object
         return abonnementRepository.save(abonnement);
     }
 
-    public List<Abonnement> getAllAbonnements() {
-        return abonnementRepository.findAll();
+    // 2. Get an abonnement by its ID
+    public Optional<Abonnement> getAbonnementById(Long abonnementId) {
+        return abonnementRepository.findById(abonnementId);
     }
 
-    public Optional<Abonnement> getAbonnementById(int id) {
-        return abonnementRepository.findById(id);
+    // 3. Get all abonnements for a specific Salledesport (Gym)
+    public List<Abonnement> getAbonnementsBySalle(Long salleId) {
+        return abonnementRepository.findBySalledesportId(salleId);
     }
 
-    @Transactional
-    public Abonnement updateAbonnement(Abonnement abonnement) {
-        return abonnementRepository.save(abonnement);
+    // 4. Delete an abonnement by its ID
+    public void deleteAbonnement(Long abonnementId) {
+        abonnementRepository.deleteById(abonnementId);
     }
 
-    @Transactional
-    public void deleteAbonnement(int id) {
-        if (abonnementRepository.existsById(id)) {
-            abonnementRepository.deleteById(id);
+    // 5. Update an existing abonnement
+    public Abonnement updateAbonnement(Long abonnementId, Abonnement abonnement) {
+        Optional<Abonnement> existingAbonnement = abonnementRepository.findById(abonnementId);
+        if (existingAbonnement.isPresent()) {
+            abonnement.setId(abonnementId);  // Ensure the ID is set correctly
+            return abonnementRepository.save(abonnement);
         } else {
-            throw new RuntimeException("Abonnement not found with id: " + id);
+            throw new RuntimeException("Abonnement not found");
         }
     }
 }

@@ -1,8 +1,12 @@
 package com.example.sportzone.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
+
 import java.time.LocalDate;
 import java.util.List;
+
+@Data
 @Entity
 public class Abonnement {
     @Id
@@ -26,6 +30,8 @@ public class Abonnement {
 
     @OneToMany(mappedBy = "abonnement", cascade = CascadeType.ALL)
     private List<Facture> factures;
+
     @OneToMany(mappedBy = "abonnement", cascade = CascadeType.ALL)
     private List<ServiceEntity> services;
+
 }

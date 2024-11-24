@@ -1,23 +1,27 @@
 package com.example.sportzone.Services;
 
-import com.example.sportzone.Repository.ServiceRepository;
 import com.example.sportzone.entity.ServiceEntity;
+import com.example.sportzone.Repository.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
-public class ServiceService {
+public class ServiceEntityService {
 
     @Autowired
-    private ServiceRepository serviceRepository;
+    private ServiceRepository serviceEntityRepository;
 
-    // Fetch services by a list of IDs
-    public List<ServiceEntity> getAllServicesByIds(List<Long> ids) {
-        return serviceRepository.findAllById(ids);
+    // Method to create a new ServiceEntity
+    public ServiceEntity createServiceEntity(String nom, String description) {
+        // Create a new ServiceEntity using the no-args constructor
+        ServiceEntity serviceEntity = new ServiceEntity();
+
+        // Manually set the properties
+        serviceEntity.setNom(nom);
+        serviceEntity.setDescription(description);
+        serviceEntity.setAbonnement(null); // Set abonnement to null or some other valid object
+
+        // Save the ServiceEntity in the database
+        return serviceEntityRepository.save(serviceEntity);
     }
-
-    // Other methods...
 }

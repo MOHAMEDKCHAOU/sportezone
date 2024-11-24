@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@RequestMapping("/users") // Organized path for all user-related endpoints
 public class RegistrationController {
 
     @Autowired
@@ -20,36 +21,36 @@ public class RegistrationController {
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         model.addAttribute("registrationDTO", new RegistrationDTO());
-        return "register_form";  // return the registration form view
+        return "register_form";  // Return the registration form view
     }
 
     // 2. Save the user (Client or ProprietaireSalle)
     @PostMapping("/register")
     public String registerUser(@ModelAttribute("registrationDTO") RegistrationDTO registrationDTO) {
         utilisateurService.registerUser(registrationDTO);
-        return "redirect:/users";  // redirect to user list after registration
+        return "redirect:/users/list";  // Redirect to the user list after registration
     }
 
     // 3. Get all registered users
-    @GetMapping("/users")
+    @GetMapping("/list")
     public String getAllUsers(Model model) {
         List<Utilisateur> users = utilisateurService.getAllUsers();
         model.addAttribute("users", users);
-        return "user_list";  // return the user list view
+        return "user_list";  // Return the user list view
     }
 
     // 4. Get user details by ID
-    @GetMapping("/user/{id}")
+    @GetMapping("/{id}")
     public String getUserById(@PathVariable Long id, Model model) {
         Utilisateur user = utilisateurService.getUserById(id);
         model.addAttribute("user", user);
-        return "user_detail";  // return the user detail view
+        return "user_detail";  // Return the user detail view
     }
 
     // 5. Delete a user by ID
-    @GetMapping("/deleteUser/{id}")
+    @GetMapping("/delete/{id}")
     public String deleteUser(@PathVariable Long id) {
         utilisateurService.deleteUser(id);
-        return "redirect:/users";  // redirect to the user list after deletion
+        return "redirect:/users/list";  // Redirect to the user list after deletion
     }
 }

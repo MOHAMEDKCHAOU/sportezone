@@ -1,4 +1,5 @@
 package com.example.sportzone.entity;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,6 +16,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Client extends Utilisateur {
 
+    private String telephone; // Add the telephone field here
+
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
-    private List<Abonnement> abonnements;
+    private List<Abonnement> abonnements = new ArrayList<>();
 }
