@@ -5,23 +5,54 @@ import com.example.sportzone.Repository.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ServiceEntityService {
 
     @Autowired
     private ServiceRepository serviceEntityRepository;
 
-    // Method to create a new ServiceEntity
+    // 1. Créer un nouveau ServiceEntity
     public ServiceEntity createServiceEntity(String nom, String description) {
-        // Create a new ServiceEntity using the no-args constructor
         ServiceEntity serviceEntity = new ServiceEntity();
-
-        // Manually set the properties
         serviceEntity.setNom(nom);
         serviceEntity.setDescription(description);
-        serviceEntity.setAbonnement(null); // Set abonnement to null or some other valid object
 
-        // Save the ServiceEntity in the database
+        // Persister le service dans la base de données
         return serviceEntityRepository.save(serviceEntity);
+    }
+
+    // 2. Récupérer un ServiceEntity par ID
+    public ServiceEntity getServiceEntityById(Long id) {
+        return serviceEntityRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("ServiceEntity introuvable avec l'ID : " + id));
+    }
+
+    // 3. Mettre à jour un ServiceEntity existant
+    public ServiceEntity updateServiceEntity(Long id, ServiceEntity updatedService) {
+        // Vérifier si l'entité existe
+        Optional<ServiceEntity> existingEntityOptional = serviceEntityRepository.findById(id);
+        if (existingEntityOptional.isPresent()) {
+            ServiceEntity existingEntity = existingEntityOptional.get();
+
+            // Mettre à jour les propriétés
+            existingEntity.setNom(updatedService.getNom());
+            existingEntity.setDescription(updatedService.getDescription());
+
+            // Sauvegarder les modifications
+            return serviceEntityRepository.save(existingEntity);
+        } else {
+            throw new RuntimeException("ServiceEntity introuvable avec l'ID : " + id);
+        }
+    }
+
+    // 4. Supprimer un ServiceEntity par ID
+    public void deleteServiceEntity(Long id) {
+        if (serviceEntityRepository.existsById(id)) {
+            serviceEntityRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("ServiceEntity introuvable avec l'ID : " + id);
+        }
     }
 }

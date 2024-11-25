@@ -20,12 +20,16 @@ public class SalledesportService {
     private ProprietairesalleRepository proprietairesalleRepository;
 
     // 1. Create a new salle de sport
-    public void createSalle(Long proprietaireId, Salledesport salledesport) {
+    public Salledesport createSalle(Long proprietaireId, Salledesport salledesport) {
         Optional<Proprietairesalle> proprietaireOptional = proprietairesalleRepository.findById(proprietaireId);
         if (proprietaireOptional.isPresent()) {
             Proprietairesalle proprietaire = proprietaireOptional.get();
+
+            // Associer la salle au propriétaire
             salledesport.setProprietairesalle(proprietaire);
-            salledesportRepository.save(salledesport);
+
+            // Sauvegarder la salle et retourner l'entité sauvegardée
+            return salledesportRepository.save(salledesport);
         } else {
             throw new RuntimeException("Propriétaire non trouvé !");
         }
